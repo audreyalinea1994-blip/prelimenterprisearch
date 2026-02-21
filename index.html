@@ -1,0 +1,1602 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise Architecture Course</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+    .heading-font {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .gradient-bg {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 50%, #1e3a5f 100%);
+    }
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    }
+    .tab-active {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: white;
+    }
+    .progress-ring {
+      transition: stroke-dashoffset 0.5s ease;
+    }
+    .activity-card {
+      border-left: 4px solid #3b82f6;
+    }
+    .quiz-option:hover {
+      background: #eff6ff;
+      border-color: #3b82f6;
+    }
+    .quiz-correct {
+      background: #dcfce7 !important;
+      border-color: #22c55e !important;
+    }
+    .quiz-incorrect {
+      background: #fee2e2 !important;
+      border-color: #ef4444 !important;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade {
+      animation: fadeIn 0.4s ease forwards;
+    }
+    .layer-diagram {
+      background: linear-gradient(180deg, #fef3c7 0%, #fde68a 100%);
+    }
+    .layer-business { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+    .layer-application { background: linear-gradient(135deg, #60a5fa, #3b82f6); }
+    .layer-data { background: linear-gradient(135deg, #34d399, #10b981); }
+    .layer-technology { background: linear-gradient(135deg, #a78bfa, #8b5cf6); }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app-wrapper" class="h-full w-full overflow-auto gradient-bg"><!-- Header -->
+   <header class="bg-white/10 backdrop-blur-sm border-b border-white/20 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+     <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+       <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+       </svg>
+      </div>
+      <div>
+       <h1 id="main-title" class="heading-font text-xl font-bold text-white">Enterprise Architecture</h1>
+       <p id="instructor-display" class="text-xs text-white/70">Information Systems Course</p>
+      </div>
+     </div>
+     <div class="flex items-center gap-4">
+      <div class="hidden md:flex items-center gap-2 bg-white/20 rounded-full px-4 py-2"><span class="text-white/80 text-sm">Progress</span>
+       <div class="w-32 h-2 bg-white/30 rounded-full overflow-hidden">
+        <div id="overall-progress" class="h-full bg-gradient-to-r from-emerald-400 to-green-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+       </div><span id="progress-text" class="text-white text-sm font-semibold">0%</span>
+      </div>
+     </div>
+    </div>
+   </header><!-- Week Navigation -->
+   <nav class="max-w-7xl mx-auto px-4 py-4">
+    <div class="flex gap-2 overflow-x-auto pb-2" id="week-tabs"><button onclick="switchWeek(2)" class="week-tab tab-active flex-shrink-0 px-6 py-3 rounded-xl font-semibold text-sm transition-all" data-week="2"> 📚 Week 2 </button> <button onclick="switchWeek(3)" class="week-tab flex-shrink-0 px-6 py-3 rounded-xl font-semibold text-sm bg-white/20 text-white hover:bg-white/30 transition-all" data-week="3"> 💼 Week 3 </button> <button onclick="switchWeek(4)" class="week-tab flex-shrink-0 px-6 py-3 rounded-xl font-semibold text-sm bg-white/20 text-white hover:bg-white/30 transition-all" data-week="4"> 🏗️ Week 4 </button> <button onclick="switchWeek(5)" class="week-tab flex-shrink-0 px-6 py-3 rounded-xl font-semibold text-sm bg-white/20 text-white hover:bg-white/30 transition-all" data-week="5"> 📋 Week 5 </button>
+    </div>
+   </nav><!-- Main Content Area -->
+   <main class="max-w-7xl mx-auto px-4 pb-8"><!-- Week 2 Content -->
+    <div id="week-2" class="week-content animate-fade"><!-- Week Header -->
+     <div class="bg-white rounded-2xl p-6 mb-6 shadow-lg">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+       <div><span class="inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold mb-2">WEEK 2</span>
+        <h2 class="heading-font text-2xl font-bold text-slate-800">Introduction to Enterprise Architecture</h2>
+        <p class="text-slate-600 mt-1">Concepts, Purpose, and Scope</p>
+       </div>
+       <div class="flex items-center gap-4">
+        <div class="text-center">
+         <div class="text-3xl font-bold text-blue-600">
+          3
+         </div>
+         <div class="text-xs text-slate-500">
+          Lessons
+         </div>
+        </div>
+        <div class="text-center">
+         <div class="text-3xl font-bold text-emerald-600">
+          2
+         </div>
+         <div class="text-xs text-slate-500">
+          Activities
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="mt-4 p-4 bg-amber-50 rounded-xl border border-amber-200">
+       <p class="text-amber-800 font-semibold">🎯 Learning Objective:</p>
+       <p class="text-amber-700">Analyze the role and purpose of enterprise architecture in organizations</p>
+      </div>
+     </div><!-- Lesson Content Tabs -->
+     <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-6">
+      <div class="flex border-b"><button onclick="switchSection(2, 'lesson')" class="section-tab flex-1 px-6 py-4 font-semibold text-blue-600 bg-blue-50 border-b-2 border-blue-600" data-section="lesson"> 📖 Lesson Content </button> <button onclick="switchSection(2, 'activity')" class="section-tab flex-1 px-6 py-4 font-semibold text-slate-500 hover:bg-slate-50 transition-colors" data-section="activity"> 🎮 Activities </button> <button onclick="switchSection(2, 'quiz')" class="section-tab flex-1 px-6 py-4 font-semibold text-slate-500 hover:bg-slate-50 transition-colors" data-section="quiz"> ✅ Quiz </button>
+      </div><!-- Lesson Section -->
+      <div id="week2-lesson" class="section-content p-6">
+       <div class="space-y-8"><!-- What is EA -->
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6">
+         <h3 class="heading-font text-xl font-bold text-slate-800 mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white text-sm">1</span> What is Enterprise Architecture?</h3>
+         <div class="grid md:grid-cols-2 gap-6">
+          <div>
+           <p class="text-slate-700 leading-relaxed mb-4"><strong>Enterprise Architecture (EA)</strong> is a strategic blueprint that describes how an organization's business processes, information systems, and technology infrastructure work together to achieve business goals.</p>
+           <div class="bg-white rounded-lg p-4 border-l-4 border-blue-500">
+            <p class="text-slate-600 italic">"EA is like the master plan of a city - it shows how all the buildings, roads, utilities, and services connect and work together."</p>
+           </div>
+          </div>
+          <div class="bg-white rounded-xl p-4">
+           <h4 class="font-semibold text-slate-700 mb-3">🔑 Key Components:</h4>
+           <ul class="space-y-2">
+            <li class="flex items-start gap-2"><span class="text-blue-500 mt-1">▸</span> <span class="text-slate-600"><strong>Business Processes:</strong> How work gets done</span></li>
+            <li class="flex items-start gap-2"><span class="text-blue-500 mt-1">▸</span> <span class="text-slate-600"><strong>Information:</strong> Data and knowledge flow</span></li>
+            <li class="flex items-start gap-2"><span class="text-blue-500 mt-1">▸</span> <span class="text-slate-600"><strong>Applications:</strong> Software systems used</span></li>
+            <li class="flex items-start gap-2"><span class="text-blue-500 mt-1">▸</span> <span class="text-slate-600"><strong>Technology:</strong> Hardware and networks</span></li>
+           </ul>
+          </div>
+         </div>
+        </div><!-- Purpose of EA -->
+        <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-6">
+         <h3 class="heading-font text-xl font-bold text-slate-800 mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center text-white text-sm">2</span> Purpose &amp; Benefits of EA</h3>
+         <div class="grid md:grid-cols-3 gap-4">
+          <div class="bg-white rounded-xl p-5 card-hover cursor-default">
+           <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-3"><span class="text-2xl">🎯</span>
+           </div>
+           <h4 class="font-bold text-slate-800 mb-2">Strategic Alignment</h4>
+           <p class="text-slate-600 text-sm">Ensures IT investments support business goals and strategies</p>
+          </div>
+          <div class="bg-white rounded-xl p-5 card-hover cursor-default">
+           <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-3"><span class="text-2xl">💰</span>
+           </div>
+           <h4 class="font-bold text-slate-800 mb-2">Cost Reduction</h4>
+           <p class="text-slate-600 text-sm">Eliminates redundancy and optimizes resource utilization</p>
+          </div>
+          <div class="bg-white rounded-xl p-5 card-hover cursor-default">
+           <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-3"><span class="text-2xl">🔄</span>
+           </div>
+           <h4 class="font-bold text-slate-800 mb-2">Agility</h4>
+           <p class="text-slate-600 text-sm">Enables faster response to market changes and opportunities</p>
+          </div>
+          <div class="bg-white rounded-xl p-5 card-hover cursor-default">
+           <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-3"><span class="text-2xl">🤝</span>
+           </div>
+           <h4 class="font-bold text-slate-800 mb-2">Communication</h4>
+           <p class="text-slate-600 text-sm">Provides common language between business and IT stakeholders</p>
+          </div>
+          <div class="bg-white rounded-xl p-5 card-hover cursor-default">
+           <div class="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center mb-3"><span class="text-2xl">🛡️</span>
+           </div>
+           <h4 class="font-bold text-slate-800 mb-2">Risk Management</h4>
+           <p class="text-slate-600 text-sm">Identifies vulnerabilities and ensures compliance</p>
+          </div>
+          <div class="bg-white rounded-xl p-5 card-hover cursor-default">
+           <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-3"><span class="text-2xl">📈</span>
+           </div>
+           <h4 class="font-bold text-slate-800 mb-2">Decision Support</h4>
+           <p class="text-slate-600 text-sm">Provides insights for informed technology decisions</p>
+          </div>
+         </div>
+        </div><!-- Scope of EA -->
+        <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6">
+         <h3 class="heading-font text-xl font-bold text-slate-800 mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center text-white text-sm">3</span> Scope of Enterprise Architecture</h3>
+         <div class="bg-white rounded-xl p-6">
+          <div class="flex flex-col items-center">
+           <div class="w-full max-w-2xl">
+            <div class="relative"><!-- Outer ring - Enterprise -->
+             <div class="w-full aspect-square rounded-full border-4 border-purple-300 bg-purple-50 flex items-center justify-center p-8"><span class="absolute top-4 left-1/2 -translate-x-1/2 bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold">ENTERPRISE</span> <!-- Middle ring - Organization -->
+              <div class="w-full aspect-square rounded-full border-4 border-blue-300 bg-blue-50 flex items-center justify-center p-8"><span class="absolute top-1/4 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold">ORGANIZATION</span> <!-- Inner ring - Department -->
+               <div class="w-full aspect-square rounded-full border-4 border-emerald-300 bg-emerald-50 flex items-center justify-center p-4"><span class="absolute top-1/3 left-1/2 -translate-x-1/2 bg-emerald-600 text-white px-3 py-1 rounded-full text-xs font-semibold">DEPARTMENT</span> <!-- Core - Project -->
+                <div class="w-full aspect-square rounded-full border-4 border-amber-300 bg-amber-50 flex items-center justify-center"><span class="bg-amber-600 text-white px-3 py-1 rounded-full text-xs font-semibold">PROJECT</span>
+                </div>
+               </div>
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
+            <div class="text-center p-3 bg-purple-100 rounded-lg">
+             <div class="font-bold text-purple-700">
+              Enterprise
+             </div>
+             <div class="text-xs text-purple-600">
+              Entire organization ecosystem
+             </div>
+            </div>
+            <div class="text-center p-3 bg-blue-100 rounded-lg">
+             <div class="font-bold text-blue-700">
+              Organization
+             </div>
+             <div class="text-xs text-blue-600">
+              Business units &amp; functions
+             </div>
+            </div>
+            <div class="text-center p-3 bg-emerald-100 rounded-lg">
+             <div class="font-bold text-emerald-700">
+              Department
+             </div>
+             <div class="text-xs text-emerald-600">
+              Specific operational areas
+             </div>
+            </div>
+            <div class="text-center p-3 bg-amber-100 rounded-lg">
+             <div class="font-bold text-amber-700">
+              Project
+             </div>
+             <div class="text-xs text-amber-600">
+              Individual initiatives
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div><!-- Activities Section -->
+      <div id="week2-activity" class="section-content p-6 hidden">
+       <div class="space-y-6"><!-- Group Activity -->
+        <div class="activity-card bg-blue-50 rounded-xl p-6 border border-blue-200">
+         <div class="flex items-start gap-4">
+          <div class="w-14 h-14 bg-blue-600 rounded-xl flex items-center justify-center flex-shrink-0"><span class="text-2xl">👥</span>
+          </div>
+          <div class="flex-1"><span class="inline-block px-3 py-1 bg-blue-600 text-white rounded-full text-xs font-semibold mb-2">GROUP ACTIVITY</span>
+           <h3 class="heading-font text-xl font-bold text-slate-800 mb-2">EA Role Play Discussion</h3>
+           <p class="text-slate-600 mb-4">Form groups of 4-5 students. Each group will analyze a real organization.</p>
+           <div class="bg-white rounded-lg p-4 mb-4">
+            <h4 class="font-semibold text-slate-700 mb-3">📋 Instructions:</h4>
+            <ol class="space-y-2 text-slate-600">
+             <li class="flex gap-2"><span class="font-bold text-blue-600">1.</span> Choose a well-known company (e.g., Jollibee, SM, BDO, Globe)</li>
+             <li class="flex gap-2"><span class="font-bold text-blue-600">2.</span> Identify their key business processes (ordering, payment, inventory)</li>
+             <li class="flex gap-2"><span class="font-bold text-blue-600">3.</span> List the applications/systems they might use</li>
+             <li class="flex gap-2"><span class="font-bold text-blue-600">4.</span> Discuss: "Why would this company need Enterprise Architecture?"</li>
+             <li class="flex gap-2"><span class="font-bold text-blue-600">5.</span> Present your findings to the class (5 minutes per group)</li>
+            </ol>
+           </div>
+           <div class="flex items-center gap-4 text-sm text-slate-500"><span>⏱️ Duration: 30 minutes</span> <span>👥 Group Size: 4-5 students</span>
+           </div>
+          </div>
+         </div>
+        </div><!-- Individual Activity -->
+        <div class="activity-card bg-emerald-50 rounded-xl p-6 border border-emerald-200">
+         <div class="flex items-start gap-4">
+          <div class="w-14 h-14 bg-emerald-600 rounded-xl flex items-center justify-center flex-shrink-0"><span class="text-2xl">👤</span>
+          </div>
+          <div class="flex-1"><span class="inline-block px-3 py-1 bg-emerald-600 text-white rounded-full text-xs font-semibold mb-2">INDIVIDUAL ACTIVITY</span>
+           <h3 class="heading-font text-xl font-bold text-slate-800 mb-2">EA Reflection Journal</h3>
+           <p class="text-slate-600 mb-4">Write a short reflection answering the following questions.</p>
+           <div class="bg-white rounded-lg p-4 mb-4">
+            <h4 class="font-semibold text-slate-700 mb-3">✍️ Questions to Answer:</h4>
+            <ul class="space-y-3 text-slate-600">
+             <li class="flex gap-2"><span class="text-emerald-500">•</span> <span>Think of your school as an "enterprise." What are the main processes, systems, and technologies you interact with daily?</span></li>
+             <li class="flex gap-2"><span class="text-emerald-500">•</span> <span>Have you experienced any problems caused by poor integration between systems? (e.g., enrollment issues, grade viewing problems)</span></li>
+             <li class="flex gap-2"><span class="text-emerald-500">•</span> <span>How do you think EA could help solve these problems?</span></li>
+            </ul>
+           </div>
+           <div class="flex items-center gap-4 text-sm text-slate-500"><span>⏱️ Duration: 15 minutes</span> <span>📝 Submit: Short essay (150-200 words)</span>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div><!-- Quiz Section -->
+      <div id="week2-quiz" class="section-content p-6 hidden">
+       <div class="max-w-2xl mx-auto">
+        <div class="text-center mb-6">
+         <h3 class="heading-font text-xl font-bold text-slate-800">Week 2 Quiz</h3>
+         <p class="text-slate-600">Test your understanding of Enterprise Architecture basics</p>
+        </div>
+        <div id="quiz2-container" class="space-y-4"><!-- Quiz questions will be rendered here -->
+        </div>
+        <div id="quiz2-result" class="hidden mt-6 p-6 rounded-xl text-center"><!-- Result will be shown here -->
+        </div>
+        <div class="flex justify-center mt-6"><button onclick="submitQuiz(2)" id="submit-quiz2" class="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all"> Submit Quiz </button> <button onclick="resetQuiz(2)" id="reset-quiz2" class="hidden px-8 py-3 bg-slate-200 text-slate-700 font-semibold rounded-xl hover:bg-slate-300 transition-all"> Try Again </button>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- Week 3 Content -->
+    <div id="week-3" class="week-content hidden">
+     <div class="bg-white rounded-2xl p-6 mb-6 shadow-lg">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+       <div><span class="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-semibold mb-2">WEEK 3</span>
+        <h2 class="heading-font text-2xl font-bold text-slate-800">Business Strategy &amp; Architecture Requirements</h2>
+        <p class="text-slate-600 mt-1">Business Models, Strategy Frameworks, Organizational Context</p>
+       </div>
+      </div>
+      <div class="mt-4 p-4 bg-amber-50 rounded-xl border border-amber-200">
+       <p class="text-amber-800 font-semibold">🎯 Learning Objective:</p>
+       <p class="text-amber-700">Examine business strategies to determine architecture requirements</p>
+      </div>
+     </div>
+     <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-6">
+      <div class="flex border-b"><button onclick="switchSection(3, 'lesson')" class="section-tab flex-1 px-6 py-4 font-semibold text-emerald-600 bg-emerald-50 border-b-2 border-emerald-600" data-section="lesson"> 📖 Lesson Content </button> <button onclick="switchSection(3, 'activity')" class="section-tab flex-1 px-6 py-4 font-semibold text-slate-500 hover:bg-slate-50 transition-colors" data-section="activity"> 🎮 Activities </button> <button onclick="switchSection(3, 'quiz')" class="section-tab flex-1 px-6 py-4 font-semibold text-slate-500 hover:bg-slate-50 transition-colors" data-section="quiz"> ✅ Recitation </button>
+      </div>
+      <div id="week3-lesson" class="section-content p-6">
+       <div class="space-y-8"><!-- Business Strategy -->
+        <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-6">
+         <h3 class="heading-font text-xl font-bold text-slate-800 mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center text-white text-sm">1</span> Understanding Business Strategy</h3>
+         <div class="grid md:grid-cols-2 gap-6">
+          <div>
+           <p class="text-slate-700 leading-relaxed mb-4"><strong>Business Strategy</strong> defines how an organization will achieve its goals and compete in the market. EA must align with and support this strategy.</p>
+           <div class="bg-white rounded-lg p-4">
+            <h4 class="font-semibold text-slate-700 mb-3">🎯 Strategic Questions EA Addresses:</h4>
+            <ul class="space-y-2 text-slate-600">
+             <li>• What capabilities does the business need?</li>
+             <li>• How should IT support business growth?</li>
+             <li>• What systems enable competitive advantage?</li>
+             <li>• How to reduce costs while improving service?</li>
+            </ul>
+           </div>
+          </div>
+          <div class="bg-white rounded-xl p-4">
+           <h4 class="font-semibold text-slate-700 mb-3">📊 Porter's Generic Strategies:</h4>
+           <div class="space-y-3">
+            <div class="p-3 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+             <div class="font-bold text-blue-700">
+              Cost Leadership
+             </div>
+             <div class="text-sm text-slate-600">
+              Be the lowest-cost producer (e.g., Puregold)
+             </div>
+            </div>
+            <div class="p-3 bg-purple-50 rounded-lg border-l-4 border-purple-500">
+             <div class="font-bold text-purple-700">
+              Differentiation
+             </div>
+             <div class="text-sm text-slate-600">
+              Offer unique value (e.g., Apple)
+             </div>
+            </div>
+            <div class="p-3 bg-amber-50 rounded-lg border-l-4 border-amber-500">
+             <div class="font-bold text-amber-700">
+              Focus/Niche
+             </div>
+             <div class="text-sm text-slate-600">
+              Serve specific segment (e.g., Luxury brands)
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div><!-- Business Model Canvas -->
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6">
+         <h3 class="heading-font text-xl font-bold text-slate-800 mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white text-sm">2</span> Business Model Canvas</h3>
+         <p class="text-slate-700 mb-4">A strategic tool that helps visualize how a business creates, delivers, and captures value.</p>
+         <div class="bg-white rounded-xl p-4 overflow-x-auto">
+          <div class="grid grid-cols-5 gap-2 min-w-[700px]">
+           <div class="col-span-1 row-span-2 bg-purple-100 rounded-lg p-3">
+            <div class="font-bold text-purple-700 text-sm mb-2">
+             🤝 Key Partners
+            </div>
+            <div class="text-xs text-slate-600">
+             Suppliers, alliances, outsourcing partners
+            </div>
+           </div>
+           <div class="bg-blue-100 rounded-lg p-3">
+            <div class="font-bold text-blue-700 text-sm mb-2">
+             ⚙️ Key Activities
+            </div>
+            <div class="text-xs text-slate-600">
+             Core operations, R&amp;D, marketing
+            </div>
+           </div>
+           <div class="bg-emerald-100 rounded-lg p-3">
+            <div class="font-bold text-emerald-700 text-sm mb-2">
+             💎 Value Proposition
+            </div>
+            <div class="text-xs text-slate-600">
+             What unique value you offer
+            </div>
+           </div>
+           <div class="bg-amber-100 rounded-lg p-3">
+            <div class="font-bold text-amber-700 text-sm mb-2">
+             📞 Customer Relations
+            </div>
+            <div class="text-xs text-slate-600">
+             How you interact with customers
+            </div>
+           </div>
+           <div class="col-span-1 row-span-2 bg-rose-100 rounded-lg p-3">
+            <div class="font-bold text-rose-700 text-sm mb-2">
+             👥 Customer Segments
+            </div>
+            <div class="text-xs text-slate-600">
+             Target market, customer groups
+            </div>
+           </div>
+           <div class="bg-indigo-100 rounded-lg p-3">
+            <div class="font-bold text-indigo-700 text-sm mb-2">
+             🔑 Key Resources
+            </div>
+            <div class="text-xs text-slate-600">
+             Assets, IP, human resources
+            </div>
+           </div>
+           <div class="bg-teal-100 rounded-lg p-3">
+            <div class="font-bold text-teal-700 text-sm mb-2">
+             📦 Channels
+            </div>
+            <div class="text-xs text-slate-600">
+             How you reach customers
+            </div>
+           </div>
+           <div class="col-span-2 bg-red-100 rounded-lg p-3">
+            <div class="font-bold text-red-700 text-sm mb-2">
+             💸 Cost Structure
+            </div>
+            <div class="text-xs text-slate-600">
+             Fixed costs, variable costs, economies of scale
+            </div>
+           </div>
+           <div class="col-span-3 bg-green-100 rounded-lg p-3">
+            <div class="font-bold text-green-700 text-sm mb-2">
+             💰 Revenue Streams
+            </div>
+            <div class="text-xs text-slate-600">
+             Pricing, payment methods, revenue sources
+            </div>
+           </div>
+          </div>
+         </div>
+        </div><!-- Organizational Context -->
+        <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-6">
+         <h3 class="heading-font text-xl font-bold text-slate-800 mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-amber-600 rounded-lg flex items-center justify-center text-white text-sm">3</span> Organizational Context for EA</h3>
+         <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-white rounded-xl p-5">
+           <h4 class="font-bold text-slate-700 mb-3">🏢 Internal Factors</h4>
+           <ul class="space-y-2 text-slate-600">
+            <li class="flex items-start gap-2"><span class="text-amber-500">▸</span> <span><strong>Culture:</strong> Innovation vs. tradition-focused</span></li>
+            <li class="flex items-start gap-2"><span class="text-amber-500">▸</span> <span><strong>Structure:</strong> Centralized vs. decentralized</span></li>
+            <li class="flex items-start gap-2"><span class="text-amber-500">▸</span> <span><strong>Resources:</strong> Budget, skills, technology</span></li>
+            <li class="flex items-start gap-2"><span class="text-amber-500">▸</span> <span><strong>Maturity:</strong> Current EA capability level</span></li>
+           </ul>
+          </div>
+          <div class="bg-white rounded-xl p-5">
+           <h4 class="font-bold text-slate-700 mb-3">🌍 External Factors</h4>
+           <ul class="space-y-2 text-slate-600">
+            <li class="flex items-start gap-2"><span class="text-orange-500">▸</span> <span><strong>Market:</strong> Competition, customer demands</span></li>
+            <li class="flex items-start gap-2"><span class="text-orange-500">▸</span> <span><strong>Technology:</strong> Digital trends, disruption</span></li>
+            <li class="flex items-start gap-2"><span class="text-orange-500">▸</span> <span><strong>Regulations:</strong> Compliance requirements</span></li>
+            <li class="flex items-start gap-2"><span class="text-orange-500">▸</span> <span><strong>Economy:</strong> Growth, recession, inflation</span></li>
+           </ul>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div id="week3-activity" class="section-content p-6 hidden">
+       <div class="space-y-6"><!-- Group Activity -->
+        <div class="activity-card bg-emerald-50 rounded-xl p-6 border border-emerald-200">
+         <div class="flex items-start gap-4">
+          <div class="w-14 h-14 bg-emerald-600 rounded-xl flex items-center justify-center flex-shrink-0"><span class="text-2xl">👥</span>
+          </div>
+          <div class="flex-1"><span class="inline-block px-3 py-1 bg-emerald-600 text-white rounded-full text-xs font-semibold mb-2">GROUP ACTIVITY - CASE WALKTHROUGH</span>
+           <h3 class="heading-font text-xl font-bold text-slate-800 mb-2">Business Model Canvas Analysis</h3>
+           <p class="text-slate-600 mb-4">Analyze a Philippine company using the Business Model Canvas framework.</p>
+           <div class="bg-white rounded-lg p-4 mb-4">
+            <h4 class="font-semibold text-slate-700 mb-3">📋 Case: Jollibee Foods Corporation</h4>
+            <ol class="space-y-2 text-slate-600">
+             <li class="flex gap-2"><span class="font-bold text-emerald-600">1.</span> Form groups of 4-5 members</li>
+             <li class="flex gap-2"><span class="font-bold text-emerald-600">2.</span> Using the Business Model Canvas template, identify all 9 building blocks for Jollibee</li>
+             <li class="flex gap-2"><span class="font-bold text-emerald-600">3.</span> Discuss: What IT systems would support each building block?</li>
+             <li class="flex gap-2"><span class="font-bold text-emerald-600">4.</span> Identify architecture requirements based on their strategy</li>
+             <li class="flex gap-2"><span class="font-bold text-emerald-600">5.</span> Present your canvas and EA recommendations (7 minutes per group)</li>
+            </ol>
+           </div>
+           <div class="flex items-center gap-4 text-sm text-slate-500"><span>⏱️ Duration: 40 minutes</span> <span>👥 Group Size: 4-5 students</span>
+           </div>
+          </div>
+         </div>
+        </div><!-- Individual Activity -->
+        <div class="activity-card bg-blue-50 rounded-xl p-6 border border-blue-200">
+         <div class="flex items-start gap-4">
+          <div class="w-14 h-14 bg-blue-600 rounded-xl flex items-center justify-center flex-shrink-0"><span class="text-2xl">👤</span>
+          </div>
+          <div class="flex-1"><span class="inline-block px-3 py-1 bg-blue-600 text-white rounded-full text-xs font-semibold mb-2">INDIVIDUAL ACTIVITY</span>
+           <h3 class="heading-font text-xl font-bold text-slate-800 mb-2">Strategy-Architecture Mapping</h3>
+           <p class="text-slate-600 mb-4">Create a simple strategy-to-architecture mapping for a business of your choice.</p>
+           <div class="bg-white rounded-lg p-4 mb-4">
+            <h4 class="font-semibold text-slate-700 mb-3">📝 Template to Complete:</h4>
+            <table class="w-full text-sm">
+             <thead class="bg-slate-100">
+              <tr>
+               <th class="p-2 text-left">Business Strategy</th>
+               <th class="p-2 text-left">Required Capability</th>
+               <th class="p-2 text-left">IT System Needed</th>
+              </tr>
+             </thead>
+             <tbody class="text-slate-600">
+              <tr class="border-t">
+               <td class="p-2">e.g., Expand online sales</td>
+               <td class="p-2">E-commerce platform</td>
+               <td class="p-2">Web store, payment gateway</td>
+              </tr>
+              <tr class="border-t bg-slate-50">
+               <td class="p-2">(Your example 1)</td>
+               <td class="p-2">___________</td>
+               <td class="p-2">___________</td>
+              </tr>
+              <tr class="border-t">
+               <td class="p-2">(Your example 2)</td>
+               <td class="p-2">___________</td>
+               <td class="p-2">___________</td>
+              </tr>
+             </tbody>
+            </table>
+           </div>
+           <div class="flex items-center gap-4 text-sm text-slate-500"><span>⏱️ Duration: 20 minutes</span> <span>📝 Submit: Completed mapping table</span>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div id="week3-quiz" class="section-content p-6 hidden">
+       <div class="max-w-2xl mx-auto">
+        <div class="text-center mb-6">
+         <h3 class="heading-font text-xl font-bold text-slate-800">Week 3 Recitation Questions</h3>
+         <p class="text-slate-600">Be prepared to answer these questions in class</p>
+        </div>
+        <div class="space-y-4">
+         <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-200">
+          <div class="font-semibold text-emerald-700 mb-2">
+           Question 1:
+          </div>
+          <p class="text-slate-700">How does business strategy influence the design of enterprise architecture? Give a specific example.</p>
+         </div>
+         <div class="bg-blue-50 rounded-xl p-5 border border-blue-200">
+          <div class="font-semibold text-blue-700 mb-2">
+           Question 2:
+          </div>
+          <p class="text-slate-700">Explain how the "Value Proposition" in a Business Model Canvas connects to IT systems and applications.</p>
+         </div>
+         <div class="bg-purple-50 rounded-xl p-5 border border-purple-200">
+          <div class="font-semibold text-purple-700 mb-2">
+           Question 3:
+          </div>
+          <p class="text-slate-700">What external factors should an enterprise architect consider when designing architecture for a retail company?</p>
+         </div>
+         <div class="bg-amber-50 rounded-xl p-5 border border-amber-200">
+          <div class="font-semibold text-amber-700 mb-2">
+           Question 4:
+          </div>
+          <p class="text-slate-700">Compare cost leadership vs differentiation strategy. How would EA differ for each?</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- Week 4 Content -->
+    <div id="week-4" class="week-content hidden">
+     <div class="bg-white rounded-2xl p-6 mb-6 shadow-lg">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+       <div><span class="inline-block px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold mb-2">WEEK 4</span>
+        <h2 class="heading-font text-2xl font-bold text-slate-800">EA Domains &amp; Layers</h2>
+        <p class="text-slate-600 mt-1">Business, Application, Data, Technology Architecture</p>
+       </div>
+      </div>
+      <div class="mt-4 p-4 bg-amber-50 rounded-xl border border-amber-200">
+       <p class="text-amber-800 font-semibold">🎯 Learning Objective:</p>
+       <p class="text-amber-700">Identify EA layers and viewpoints</p>
+      </div>
+     </div>
+     <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-6">
+      <div class="flex border-b"><button onclick="switchSection(4, 'lesson')" class="section-tab flex-1 px-6 py-4 font-semibold text-purple-600 bg-purple-50 border-b-2 border-purple-600" data-section="lesson"> 📖 Lesson Content </button> <button onclick="switchSection(4, 'activity')" class="section-tab flex-1 px-6 py-4 font-semibold text-slate-500 hover:bg-slate-50 transition-colors" data-section="activity"> 🎮 Activities </button> <button onclick="switchSection(4, 'quiz')" class="section-tab flex-1 px-6 py-4 font-semibold text-slate-500 hover:bg-slate-50 transition-colors" data-section="quiz"> ✅ Seatwork </button>
+      </div>
+      <div id="week4-lesson" class="section-content p-6">
+       <div class="space-y-8"><!-- EA Layers Overview -->
+        <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6">
+         <h3 class="heading-font text-xl font-bold text-slate-800 mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center text-white text-sm">1</span> The Four Domains of EA</h3>
+         <p class="text-slate-700 mb-4">Enterprise Architecture is typically organized into four interconnected domains or layers:</p>
+         <div class="bg-white rounded-xl p-6">
+          <div class="flex flex-col gap-3 max-w-md mx-auto">
+           <div class="layer-business rounded-xl p-5 text-white shadow-lg">
+            <div class="flex items-center gap-3"><span class="text-2xl">🏢</span>
+             <div>
+              <div class="font-bold text-lg">
+               Business Architecture
+              </div>
+              <div class="text-sm opacity-90">
+               Processes, capabilities, organization
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class="flex justify-center">
+            <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+           </div>
+           <div class="layer-application rounded-xl p-5 text-white shadow-lg">
+            <div class="flex items-center gap-3"><span class="text-2xl">📱</span>
+             <div>
+              <div class="font-bold text-lg">
+               Application Architecture
+              </div>
+              <div class="text-sm opacity-90">
+               Systems, services, interfaces
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class="flex justify-center">
+            <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+           </div>
+           <div class="layer-data rounded-xl p-5 text-white shadow-lg">
+            <div class="flex items-center gap-3"><span class="text-2xl">💾</span>
+             <div>
+              <div class="font-bold text-lg">
+               Data Architecture
+              </div>
+              <div class="text-sm opacity-90">
+               Data models, storage, flow
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class="flex justify-center">
+            <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+           </div>
+           <div class="layer-technology rounded-xl p-5 text-white shadow-lg">
+            <div class="flex items-center gap-3"><span class="text-2xl">🖥️</span>
+             <div>
+              <div class="font-bold text-lg">
+               Technology Architecture
+              </div>
+              <div class="text-sm opacity-90">
+               Infrastructure, networks, platforms
+              </div>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div><!-- Detailed Layers -->
+        <div class="grid md:grid-cols-2 gap-6">
+         <div class="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-xl p-6 border-2 border-amber-200">
+          <div class="flex items-center gap-3 mb-4">
+           <div class="w-12 h-12 layer-business rounded-xl flex items-center justify-center"><span class="text-2xl">🏢</span>
+           </div>
+           <h4 class="heading-font text-lg font-bold text-slate-800">Business Architecture</h4>
+          </div>
+          <p class="text-slate-600 mb-3 text-sm">Defines the business strategy, governance, organization, and key business processes.</p>
+          <div class="bg-white rounded-lg p-3">
+           <div class="font-semibold text-amber-700 text-sm mb-2">
+            Key Components:
+           </div>
+           <ul class="text-sm text-slate-600 space-y-1">
+            <li>• Business processes &amp; workflows</li>
+            <li>• Organizational structure</li>
+            <li>• Business capabilities</li>
+            <li>• Goals &amp; objectives</li>
+            <li>• Stakeholders &amp; roles</li>
+           </ul>
+          </div>
+         </div>
+         <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border-2 border-blue-200">
+          <div class="flex items-center gap-3 mb-4">
+           <div class="w-12 h-12 layer-application rounded-xl flex items-center justify-center"><span class="text-2xl">📱</span>
+           </div>
+           <h4 class="heading-font text-lg font-bold text-slate-800">Application Architecture</h4>
+          </div>
+          <p class="text-slate-600 mb-3 text-sm">Describes the structure and behavior of applications and their interactions.</p>
+          <div class="bg-white rounded-lg p-3">
+           <div class="font-semibold text-blue-700 text-sm mb-2">
+            Key Components:
+           </div>
+           <ul class="text-sm text-slate-600 space-y-1">
+            <li>• Application portfolio</li>
+            <li>• Integration patterns</li>
+            <li>• APIs &amp; services</li>
+            <li>• User interfaces</li>
+            <li>• Application dependencies</li>
+           </ul>
+          </div>
+         </div>
+         <div class="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-6 border-2 border-emerald-200">
+          <div class="flex items-center gap-3 mb-4">
+           <div class="w-12 h-12 layer-data rounded-xl flex items-center justify-center"><span class="text-2xl">💾</span>
+           </div>
+           <h4 class="heading-font text-lg font-bold text-slate-800">Data Architecture</h4>
+          </div>
+          <p class="text-slate-600 mb-3 text-sm">Defines how data is stored, managed, and used across the enterprise.</p>
+          <div class="bg-white rounded-lg p-3">
+           <div class="font-semibold text-emerald-700 text-sm mb-2">
+            Key Components:
+           </div>
+           <ul class="text-sm text-slate-600 space-y-1">
+            <li>• Data models &amp; schemas</li>
+            <li>• Databases &amp; storage</li>
+            <li>• Data governance policies</li>
+            <li>• Data flows &amp; integration</li>
+            <li>• Master data management</li>
+           </ul>
+          </div>
+         </div>
+         <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 border-2 border-purple-200">
+          <div class="flex items-center gap-3 mb-4">
+           <div class="w-12 h-12 layer-technology rounded-xl flex items-center justify-center"><span class="text-2xl">🖥️</span>
+           </div>
+           <h4 class="heading-font text-lg font-bold text-slate-800">Technology Architecture</h4>
+          </div>
+          <p class="text-slate-600 mb-3 text-sm">Describes the hardware, software, and network infrastructure.</p>
+          <div class="bg-white rounded-lg p-3">
+           <div class="font-semibold text-purple-700 text-sm mb-2">
+            Key Components:
+           </div>
+           <ul class="text-sm text-slate-600 space-y-1">
+            <li>• Servers &amp; computing</li>
+            <li>• Networks &amp; connectivity</li>
+            <li>• Cloud platforms</li>
+            <li>• Security infrastructure</li>
+            <li>• Development tools</li>
+           </ul>
+          </div>
+         </div>
+        </div><!-- Viewpoints -->
+        <div class="bg-gradient-to-r from-slate-50 to-gray-50 rounded-xl p-6">
+         <h3 class="heading-font text-xl font-bold text-slate-800 mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-slate-600 rounded-lg flex items-center justify-center text-white text-sm">2</span> EA Viewpoints (Who Sees What?)</h3>
+         <p class="text-slate-700 mb-4">Different stakeholders need different views of the architecture:</p>
+         <div class="grid md:grid-cols-3 gap-4">
+          <div class="bg-white rounded-xl p-4 border-2 border-slate-200">
+           <div class="text-center mb-3"><span class="text-3xl">👔</span>
+            <div class="font-bold text-slate-800 mt-2">
+             Executive View
+            </div>
+           </div>
+           <ul class="text-sm text-slate-600 space-y-1">
+            <li>• Strategic alignment</li>
+            <li>• ROI &amp; value</li>
+            <li>• Risk overview</li>
+            <li>• Portfolio summary</li>
+           </ul>
+          </div>
+          <div class="bg-white rounded-xl p-4 border-2 border-slate-200">
+           <div class="text-center mb-3"><span class="text-3xl">👨‍💼</span>
+            <div class="font-bold text-slate-800 mt-2">
+             Manager View
+            </div>
+           </div>
+           <ul class="text-sm text-slate-600 space-y-1">
+            <li>• Process details</li>
+            <li>• Resource needs</li>
+            <li>• Timeline/roadmap</li>
+            <li>• Dependencies</li>
+           </ul>
+          </div>
+          <div class="bg-white rounded-xl p-4 border-2 border-slate-200">
+           <div class="text-center mb-3"><span class="text-3xl">👨‍💻</span>
+            <div class="font-bold text-slate-800 mt-2">
+             Technical View
+            </div>
+           </div>
+           <ul class="text-sm text-slate-600 space-y-1">
+            <li>• System specs</li>
+            <li>• Data models</li>
+            <li>• Integration details</li>
+            <li>• Security configs</li>
+           </ul>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div id="week4-activity" class="section-content p-6 hidden">
+       <div class="space-y-6"><!-- Group Activity -->
+        <div class="activity-card bg-purple-50 rounded-xl p-6 border border-purple-200">
+         <div class="flex items-start gap-4">
+          <div class="w-14 h-14 bg-purple-600 rounded-xl flex items-center justify-center flex-shrink-0"><span class="text-2xl">👥</span>
+          </div>
+          <div class="flex-1"><span class="inline-block px-3 py-1 bg-purple-600 text-white rounded-full text-xs font-semibold mb-2">GROUP ACTIVITY - MAPPING ACTIVITY</span>
+           <h3 class="heading-font text-xl font-bold text-slate-800 mb-2">EA Layer Mapping Challenge</h3>
+           <p class="text-slate-600 mb-4">Map a real-world scenario to the four EA domains.</p>
+           <div class="bg-white rounded-lg p-4 mb-4">
+            <h4 class="font-semibold text-slate-700 mb-3">📋 Scenario: University Online Enrollment System</h4>
+            <p class="text-slate-600 mb-3">Your group must identify components for each EA layer:</p>
+            <div class="grid md:grid-cols-2 gap-3">
+             <div class="p-3 bg-amber-50 rounded-lg">
+              <div class="font-bold text-amber-700 text-sm">
+               🏢 Business Layer
+              </div>
+              <div class="text-xs text-slate-500">
+               What processes? Who are stakeholders?
+              </div>
+             </div>
+             <div class="p-3 bg-blue-50 rounded-lg">
+              <div class="font-bold text-blue-700 text-sm">
+               📱 Application Layer
+              </div>
+              <div class="text-xs text-slate-500">
+               What systems/apps are needed?
+              </div>
+             </div>
+             <div class="p-3 bg-emerald-50 rounded-lg">
+              <div class="font-bold text-emerald-700 text-sm">
+               💾 Data Layer
+              </div>
+              <div class="text-xs text-slate-500">
+               What data is collected/stored?
+              </div>
+             </div>
+             <div class="p-3 bg-purple-50 rounded-lg">
+              <div class="font-bold text-purple-700 text-sm">
+               🖥️ Technology Layer
+              </div>
+              <div class="text-xs text-slate-500">
+               What infrastructure is needed?
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class="flex items-center gap-4 text-sm text-slate-500"><span>⏱️ Duration: 35 minutes</span> <span>👥 Group Size: 4-5 students</span>
+           </div>
+          </div>
+         </div>
+        </div><!-- Individual Activity -->
+        <div class="activity-card bg-indigo-50 rounded-xl p-6 border border-indigo-200">
+         <div class="flex items-start gap-4">
+          <div class="w-14 h-14 bg-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0"><span class="text-2xl">👤</span>
+          </div>
+          <div class="flex-1"><span class="inline-block px-3 py-1 bg-indigo-600 text-white rounded-full text-xs font-semibold mb-2">INDIVIDUAL ACTIVITY</span>
+           <h3 class="heading-font text-xl font-bold text-slate-800 mb-2">EA Diagram Analysis</h3>
+           <p class="text-slate-600 mb-4">Analyze a sample EA diagram and answer questions.</p>
+           <div class="bg-white rounded-lg p-4 mb-4">
+            <h4 class="font-semibold text-slate-700 mb-3">📝 Tasks:</h4>
+            <ol class="space-y-2 text-slate-600">
+             <li class="flex gap-2"><span class="font-bold text-indigo-600">1.</span> Draw a simple 4-layer EA diagram for a food delivery app (like GrabFood)</li>
+             <li class="flex gap-2"><span class="font-bold text-indigo-600">2.</span> Label at least 3 components for each layer</li>
+             <li class="flex gap-2"><span class="font-bold text-indigo-600">3.</span> Draw arrows showing how layers connect</li>
+             <li class="flex gap-2"><span class="font-bold text-indigo-600">4.</span> Identify which viewpoint your diagram serves (executive, manager, or technical)</li>
+            </ol>
+           </div>
+           <div class="flex items-center gap-4 text-sm text-slate-500"><span>⏱️ Duration: 20 minutes</span> <span>📝 Submit: Hand-drawn or digital diagram</span>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div id="week4-quiz" class="section-content p-6 hidden">
+       <div class="max-w-2xl mx-auto">
+        <div class="text-center mb-6">
+         <h3 class="heading-font text-xl font-bold text-slate-800">Week 4 Seatwork</h3>
+         <p class="text-slate-600">Complete the following exercises on paper</p>
+        </div>
+        <div class="space-y-4">
+         <div class="bg-purple-50 rounded-xl p-5 border border-purple-200">
+          <div class="font-semibold text-purple-700 mb-2">
+           Exercise 1: Layer Identification (5 pts)
+          </div>
+          <p class="text-slate-700 mb-3">Identify which EA layer each component belongs to:</p>
+          <table class="w-full text-sm bg-white rounded-lg overflow-hidden">
+           <thead class="bg-purple-100">
+            <tr>
+             <th class="p-2 text-left">Component</th>
+             <th class="p-2 text-left">Layer (B/A/D/T)</th>
+            </tr>
+           </thead>
+           <tbody class="text-slate-600">
+            <tr class="border-t">
+             <td class="p-2">Customer database</td>
+             <td class="p-2">_____</td>
+            </tr>
+            <tr class="border-t bg-slate-50">
+             <td class="p-2">Order processing workflow</td>
+             <td class="p-2">_____</td>
+            </tr>
+            <tr class="border-t">
+             <td class="p-2">Mobile app</td>
+             <td class="p-2">_____</td>
+            </tr>
+            <tr class="border-t bg-slate-50">
+             <td class="p-2">Cloud server</td>
+             <td class="p-2">_____</td>
+            </tr>
+            <tr class="border-t">
+             <td class="p-2">API gateway</td>
+             <td class="p-2">_____</td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+         <div class="bg-blue-50 rounded-xl p-5 border border-blue-200">
+          <div class="font-semibold text-blue-700 mb-2">
+           Exercise 2: Short Answer (10 pts)
+          </div>
+          <ol class="space-y-3 text-slate-700">
+           <li>1. Why is Business Architecture considered the "top" layer? (3 pts)</li>
+           <li>2. Give 2 examples of how Data Architecture connects to Application Architecture. (4 pts)</li>
+           <li>3. Who would be most interested in the "Technical View" of EA and why? (3 pts)</li>
+          </ol>
+         </div>
+         <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-200">
+          <div class="font-semibold text-emerald-700 mb-2">
+           Exercise 3: Diagram (5 pts)
+          </div>
+          <p class="text-slate-700">Draw a simple diagram showing how the 4 EA layers connect for a bank's ATM system. Include at least 2 components per layer.</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- Week 5 Content -->
+    <div id="week-5" class="week-content hidden">
+     <div class="bg-white rounded-2xl p-6 mb-6 shadow-lg">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+       <div><span class="inline-block px-3 py-1 bg-rose-100 text-rose-700 rounded-full text-xs font-semibold mb-2">WEEK 5</span>
+        <h2 class="heading-font text-2xl font-bold text-slate-800">EA Frameworks Overview</h2>
+        <p class="text-slate-600 mt-1">Zachman, TOGAF, ArchiMate</p>
+       </div>
+      </div>
+      <div class="mt-4 p-4 bg-amber-50 rounded-xl border border-amber-200">
+       <p class="text-amber-800 font-semibold">🎯 Learning Objective:</p>
+       <p class="text-amber-700">Use EA frameworks to guide architecture design</p>
+      </div>
+     </div>
+     <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-6">
+      <div class="flex border-b"><button onclick="switchSection(5, 'lesson')" class="section-tab flex-1 px-6 py-4 font-semibold text-rose-600 bg-rose-50 border-b-2 border-rose-600" data-section="lesson"> 📖 Lesson Content </button> <button onclick="switchSection(5, 'activity')" class="section-tab flex-1 px-6 py-4 font-semibold text-slate-500 hover:bg-slate-50 transition-colors" data-section="activity"> 🎮 Activities </button> <button onclick="switchSection(5, 'quiz')" class="section-tab flex-1 px-6 py-4 font-semibold text-slate-500 hover:bg-slate-50 transition-colors" data-section="quiz"> ✅ Quiz </button>
+      </div>
+      <div id="week5-lesson" class="section-content p-6">
+       <div class="space-y-8"><!-- What are EA Frameworks -->
+        <div class="bg-gradient-to-r from-rose-50 to-pink-50 rounded-xl p-6">
+         <h3 class="heading-font text-xl font-bold text-slate-800 mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-rose-600 rounded-lg flex items-center justify-center text-white text-sm">1</span> What are EA Frameworks?</h3>
+         <div class="grid md:grid-cols-2 gap-6">
+          <div>
+           <p class="text-slate-700 leading-relaxed mb-4"><strong>EA Frameworks</strong> are structured approaches that provide guidelines, methods, and models for developing and managing enterprise architecture.</p>
+           <div class="bg-white rounded-lg p-4 border-l-4 border-rose-500">
+            <p class="text-slate-600 italic">"Think of EA frameworks like recipes - they give you the ingredients and steps to create a well-structured architecture."</p>
+           </div>
+          </div>
+          <div class="bg-white rounded-xl p-4">
+           <h4 class="font-semibold text-slate-700 mb-3">🎯 Why Use Frameworks?</h4>
+           <ul class="space-y-2">
+            <li class="flex items-start gap-2"><span class="text-rose-500 mt-1">✓</span> <span class="text-slate-600">Provides standardized approach</span></li>
+            <li class="flex items-start gap-2"><span class="text-rose-500 mt-1">✓</span> <span class="text-slate-600">Ensures comprehensive coverage</span></li>
+            <li class="flex items-start gap-2"><span class="text-rose-500 mt-1">✓</span> <span class="text-slate-600">Facilitates communication</span></li>
+            <li class="flex items-start gap-2"><span class="text-rose-500 mt-1">✓</span> <span class="text-slate-600">Enables best practice adoption</span></li>
+           </ul>
+          </div>
+         </div>
+        </div><!-- Zachman Framework -->
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6">
+         <h3 class="heading-font text-xl font-bold text-slate-800 mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white text-sm">2</span> Zachman Framework</h3>
+         <div class="grid md:grid-cols-2 gap-6 mb-4">
+          <div>
+           <p class="text-slate-700 leading-relaxed mb-3">Created by John Zachman in 1987, this is a <strong>classification schema</strong> that organizes architecture artifacts using a 6x6 matrix.</p>
+           <div class="bg-white rounded-lg p-3">
+            <div class="font-semibold text-blue-700 mb-2">
+             Key Characteristics:
+            </div>
+            <ul class="text-sm text-slate-600 space-y-1">
+             <li>• Two-dimensional classification matrix</li>
+             <li>• Descriptive, not prescriptive</li>
+             <li>• Technology independent</li>
+             <li>• Focuses on WHAT to document</li>
+            </ul>
+           </div>
+          </div>
+          <div class="bg-white rounded-lg p-3 overflow-x-auto">
+           <div class="font-semibold text-blue-700 mb-2">
+            The 6 Questions (Columns):
+           </div>
+           <div class="flex flex-wrap gap-2 text-xs"><span class="px-2 py-1 bg-blue-100 text-blue-700 rounded-full">What (Data)</span> <span class="px-2 py-1 bg-green-100 text-green-700 rounded-full">How (Function)</span> <span class="px-2 py-1 bg-amber-100 text-amber-700 rounded-full">Where (Network)</span> <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full">Who (People)</span> <span class="px-2 py-1 bg-rose-100 text-rose-700 rounded-full">When (Time)</span> <span class="px-2 py-1 bg-teal-100 text-teal-700 rounded-full">Why (Motivation)</span>
+           </div>
+           <div class="font-semibold text-blue-700 mt-3 mb-2">
+            The 6 Perspectives (Rows):
+           </div>
+           <div class="text-xs text-slate-600 space-y-1">
+            <div>
+             1. Planner (Scope) - Business context
+            </div>
+            <div>
+             2. Owner (Business) - Business concepts
+            </div>
+            <div>
+             3. Designer (System) - System logic
+            </div>
+            <div>
+             4. Builder (Technology) - Technology physics
+            </div>
+            <div>
+             5. Subcontractor (Component) - Tool configs
+            </div>
+            <div>
+             6. User (Operations) - Actual instances
+            </div>
+           </div>
+          </div>
+         </div>
+        </div><!-- TOGAF -->
+        <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-6">
+         <h3 class="heading-font text-xl font-bold text-slate-800 mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center text-white text-sm">3</span> TOGAF (The Open Group Architecture Framework)</h3>
+         <div class="grid md:grid-cols-2 gap-6">
+          <div>
+           <p class="text-slate-700 leading-relaxed mb-3">TOGAF is a <strong>process-based framework</strong> that provides a detailed method for developing enterprise architecture through the ADM (Architecture Development Method).</p>
+           <div class="bg-white rounded-lg p-3">
+            <div class="font-semibold text-emerald-700 mb-2">
+             Key Components:
+            </div>
+            <ul class="text-sm text-slate-600 space-y-1">
+             <li>• ADM - Architecture Development Method</li>
+             <li>• Content Framework - Artifacts &amp; deliverables</li>
+             <li>• Enterprise Continuum - Repository</li>
+             <li>• Reference Models - Standards</li>
+            </ul>
+           </div>
+          </div>
+          <div class="bg-white rounded-xl p-4">
+           <div class="font-semibold text-emerald-700 mb-3">
+            ADM Phases:
+           </div>
+           <div class="flex flex-wrap gap-2"><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded text-xs">Preliminary</span> <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">A: Vision</span> <span class="px-2 py-1 bg-amber-100 text-amber-700 rounded text-xs">B: Business</span> <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs">C: IS</span> <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs">D: Technology</span> <span class="px-2 py-1 bg-rose-100 text-rose-700 rounded text-xs">E: Opportunities</span> <span class="px-2 py-1 bg-indigo-100 text-indigo-700 rounded text-xs">F: Migration</span> <span class="px-2 py-1 bg-teal-100 text-teal-700 rounded text-xs">G: Governance</span> <span class="px-2 py-1 bg-orange-100 text-orange-700 rounded text-xs">H: Change</span>
+           </div>
+           <div class="mt-3 text-center">
+            <div class="inline-block px-4 py-2 bg-emerald-100 text-emerald-700 rounded-full text-sm font-semibold">
+             Requirements Management (Center)
+            </div>
+           </div>
+          </div>
+         </div>
+        </div><!-- ArchiMate -->
+        <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6">
+         <h3 class="heading-font text-xl font-bold text-slate-800 mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center text-white text-sm">4</span> ArchiMate</h3>
+         <div class="grid md:grid-cols-2 gap-6">
+          <div>
+           <p class="text-slate-700 leading-relaxed mb-3">ArchiMate is a <strong>modeling language</strong> for describing enterprise architectures. It works well with TOGAF and provides visual notation.</p>
+           <div class="bg-white rounded-lg p-3">
+            <div class="font-semibold text-purple-700 mb-2">
+             Key Characteristics:
+            </div>
+            <ul class="text-sm text-slate-600 space-y-1">
+             <li>• Visual modeling notation</li>
+             <li>• Three layers: Business, Application, Technology</li>
+             <li>• Defines elements and relationships</li>
+             <li>• Tool-supported (Archi, Enterprise Architect)</li>
+            </ul>
+           </div>
+          </div>
+          <div class="bg-white rounded-xl p-4">
+           <div class="font-semibold text-purple-700 mb-3">
+            ArchiMate Layers:
+           </div>
+           <div class="space-y-2">
+            <div class="p-2 bg-amber-100 rounded-lg flex items-center gap-2"><span class="text-lg">🏢</span>
+             <div>
+              <div class="font-semibold text-amber-700 text-sm">
+               Business Layer
+              </div>
+              <div class="text-xs text-slate-600">
+               Actors, Roles, Processes, Services
+              </div>
+             </div>
+            </div>
+            <div class="p-2 bg-blue-100 rounded-lg flex items-center gap-2"><span class="text-lg">📱</span>
+             <div>
+              <div class="font-semibold text-blue-700 text-sm">
+               Application Layer
+              </div>
+              <div class="text-xs text-slate-600">
+               Components, Interfaces, Functions
+              </div>
+             </div>
+            </div>
+            <div class="p-2 bg-green-100 rounded-lg flex items-center gap-2"><span class="text-lg">🖥️</span>
+             <div>
+              <div class="font-semibold text-green-700 text-sm">
+               Technology Layer
+              </div>
+              <div class="text-xs text-slate-600">
+               Nodes, Devices, Networks, Artifacts
+              </div>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div><!-- Comparison -->
+        <div class="bg-gradient-to-r from-slate-50 to-gray-50 rounded-xl p-6">
+         <h3 class="heading-font text-xl font-bold text-slate-800 mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-slate-600 rounded-lg flex items-center justify-center text-white text-sm">5</span> Framework Comparison</h3>
+         <div class="bg-white rounded-xl overflow-x-auto">
+          <table class="w-full text-sm min-w-[600px]">
+           <thead class="bg-slate-100">
+            <tr>
+             <th class="p-3 text-left font-semibold">Aspect</th>
+             <th class="p-3 text-left font-semibold text-blue-700">Zachman</th>
+             <th class="p-3 text-left font-semibold text-emerald-700">TOGAF</th>
+             <th class="p-3 text-left font-semibold text-purple-700">ArchiMate</th>
+            </tr>
+           </thead>
+           <tbody class="text-slate-600">
+            <tr class="border-t">
+             <td class="p-3 font-semibold">Type</td>
+             <td class="p-3">Classification Schema</td>
+             <td class="p-3">Process Framework</td>
+             <td class="p-3">Modeling Language</td>
+            </tr>
+            <tr class="border-t bg-slate-50">
+             <td class="p-3 font-semibold">Focus</td>
+             <td class="p-3">What to document</td>
+             <td class="p-3">How to develop</td>
+             <td class="p-3">How to visualize</td>
+            </tr>
+            <tr class="border-t">
+             <td class="p-3 font-semibold">Strength</td>
+             <td class="p-3">Comprehensive taxonomy</td>
+             <td class="p-3">Detailed methodology</td>
+             <td class="p-3">Visual communication</td>
+            </tr>
+            <tr class="border-t bg-slate-50">
+             <td class="p-3 font-semibold">Best For</td>
+             <td class="p-3">Organizing artifacts</td>
+             <td class="p-3">Guiding development</td>
+             <td class="p-3">Creating diagrams</td>
+            </tr>
+            <tr class="border-t">
+             <td class="p-3 font-semibold">Complexity</td>
+             <td class="p-3">Medium</td>
+             <td class="p-3">High</td>
+             <td class="p-3">Medium</td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div id="week5-activity" class="section-content p-6 hidden">
+       <div class="space-y-6"><!-- Group Activity -->
+        <div class="activity-card bg-rose-50 rounded-xl p-6 border border-rose-200">
+         <div class="flex items-start gap-4">
+          <div class="w-14 h-14 bg-rose-600 rounded-xl flex items-center justify-center flex-shrink-0"><span class="text-2xl">👥</span>
+          </div>
+          <div class="flex-1"><span class="inline-block px-3 py-1 bg-rose-600 text-white rounded-full text-xs font-semibold mb-2">GROUP ACTIVITY - COMPARATIVE ANALYSIS</span>
+           <h3 class="heading-font text-xl font-bold text-slate-800 mb-2">Framework Selection Challenge</h3>
+           <p class="text-slate-600 mb-4">Analyze scenarios and recommend the most appropriate framework.</p>
+           <div class="bg-white rounded-lg p-4 mb-4">
+            <h4 class="font-semibold text-slate-700 mb-3">📋 Scenarios to Analyze:</h4>
+            <div class="space-y-3">
+             <div class="p-3 bg-blue-50 rounded-lg">
+              <div class="font-semibold text-blue-700">
+               Scenario A:
+              </div>
+              <div class="text-sm text-slate-600">
+               A startup needs to quickly visualize their current systems to present to investors. They need clear diagrams showing how everything connects.
+              </div>
+              <div class="text-xs text-slate-400 mt-1">
+               Which framework? Why?
+              </div>
+             </div>
+             <div class="p-3 bg-emerald-50 rounded-lg">
+              <div class="font-semibold text-emerald-700">
+               Scenario B:
+              </div>
+              <div class="text-sm text-slate-600">
+               A large bank wants to transform their entire IT infrastructure over 5 years. They need a detailed, step-by-step process.
+              </div>
+              <div class="text-xs text-slate-400 mt-1">
+               Which framework? Why?
+              </div>
+             </div>
+             <div class="p-3 bg-purple-50 rounded-lg">
+              <div class="font-semibold text-purple-700">
+               Scenario C:
+              </div>
+              <div class="text-sm text-slate-600">
+               A government agency needs to catalog and organize all their existing documentation about systems, data, and processes.
+              </div>
+              <div class="text-xs text-slate-400 mt-1">
+               Which framework? Why?
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class="flex items-center gap-4 text-sm text-slate-500"><span>⏱️ Duration: 30 minutes</span> <span>👥 Group Size: 3-4 students</span>
+           </div>
+          </div>
+         </div>
+        </div><!-- Individual Activity -->
+        <div class="activity-card bg-indigo-50 rounded-xl p-6 border border-indigo-200">
+         <div class="flex items-start gap-4">
+          <div class="w-14 h-14 bg-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0"><span class="text-2xl">👤</span>
+          </div>
+          <div class="flex-1"><span class="inline-block px-3 py-1 bg-indigo-600 text-white rounded-full text-xs font-semibold mb-2">INDIVIDUAL ACTIVITY</span>
+           <h3 class="heading-font text-xl font-bold text-slate-800 mb-2">Framework Research Brief</h3>
+           <p class="text-slate-600 mb-4">Write a one-page brief about your assigned framework.</p>
+           <div class="bg-white rounded-lg p-4 mb-4">
+            <h4 class="font-semibold text-slate-700 mb-3">📝 Brief Requirements:</h4>
+            <ul class="space-y-2 text-slate-600">
+             <li class="flex gap-2"><span class="text-indigo-500">•</span> <span>History: Who created it and when?</span></li>
+             <li class="flex gap-2"><span class="text-indigo-500">•</span> <span>Purpose: What problem does it solve?</span></li>
+             <li class="flex gap-2"><span class="text-indigo-500">•</span> <span>Components: What are its main parts?</span></li>
+             <li class="flex gap-2"><span class="text-indigo-500">•</span> <span>Example: Find one company that uses this framework</span></li>
+             <li class="flex gap-2"><span class="text-indigo-500">•</span> <span>Your Opinion: Would you recommend it? Why?</span></li>
+            </ul>
+           </div>
+           <div class="flex items-center gap-4 text-sm text-slate-500"><span>⏱️ Duration: Take-home assignment</span> <span>📝 Submit: 1-page brief (300-400 words)</span>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div id="week5-quiz" class="section-content p-6 hidden">
+       <div class="max-w-2xl mx-auto">
+        <div class="text-center mb-6">
+         <h3 class="heading-font text-xl font-bold text-slate-800">Week 5 Quiz</h3>
+         <p class="text-slate-600">Test your knowledge of EA Frameworks</p>
+        </div>
+        <div id="quiz5-container" class="space-y-4"><!-- Quiz questions will be rendered here -->
+        </div>
+        <div id="quiz5-result" class="hidden mt-6 p-6 rounded-xl text-center"><!-- Result will be shown here -->
+        </div>
+        <div class="flex justify-center mt-6"><button onclick="submitQuiz(5)" id="submit-quiz5" class="px-8 py-3 bg-gradient-to-r from-rose-600 to-pink-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all"> Submit Quiz </button> <button onclick="resetQuiz(5)" id="reset-quiz5" class="hidden px-8 py-3 bg-slate-200 text-slate-700 font-semibold rounded-xl hover:bg-slate-300 transition-all"> Try Again </button>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </main><!-- Footer -->
+   <footer class="bg-white/10 backdrop-blur-sm border-t border-white/20 py-4">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+     <p class="text-white/60 text-sm">Enterprise Architecture Course for Information Systems Students</p>
+    </div>
+   </footer>
+  </div>
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      course_title: 'Enterprise Architecture',
+      instructor_name: 'Information Systems Course',
+      primary_color: '#1e3a5f',
+      secondary_color: '#3b82f6',
+      text_color: '#1e293b',
+      font_family: 'Space Grotesk'
+    };
+
+    let config = { ...defaultConfig };
+    let currentWeek = 2;
+    let completedWeeks = new Set();
+    let quizAnswers = { 2: {}, 5: {} };
+
+    // Quiz data
+    const quizData = {
+      2: [
+        {
+          question: "What is Enterprise Architecture primarily about?",
+          options: [
+            "Building physical structures for companies",
+            "A blueprint describing how business processes, systems, and technology work together",
+            "Writing code for software applications",
+            "Managing employee schedules"
+          ],
+          correct: 1
+        },
+        {
+          question: "Which of the following is NOT a benefit of Enterprise Architecture?",
+          options: [
+            "Strategic alignment of IT with business goals",
+            "Cost reduction through eliminating redundancy",
+            "Guaranteed profit increase",
+            "Better risk management"
+          ],
+          correct: 2
+        },
+        {
+          question: "Who are the key stakeholders that benefit from EA?",
+          options: [
+            "Only IT staff",
+            "Only executives",
+            "Both business and IT stakeholders",
+            "Only customers"
+          ],
+          correct: 2
+        },
+        {
+          question: "Enterprise Architecture helps organizations by:",
+          options: [
+            "Making random technology purchases",
+            "Providing a common language between business and IT",
+            "Avoiding all technology investments",
+            "Keeping IT and business separate"
+          ],
+          correct: 1
+        },
+        {
+          question: "The scope of EA typically includes:",
+          options: [
+            "Only individual projects",
+            "Only the IT department",
+            "The entire organization including processes, data, and technology",
+            "Only hardware and networks"
+          ],
+          correct: 2
+        }
+      ],
+      5: [
+        {
+          question: "Which framework is primarily a classification schema with a 6x6 matrix?",
+          options: [
+            "TOGAF",
+            "ArchiMate",
+            "Zachman Framework",
+            "COBIT"
+          ],
+          correct: 2
+        },
+        {
+          question: "TOGAF is best known for its:",
+          options: [
+            "Visual modeling notation",
+            "Architecture Development Method (ADM)",
+            "6 interrogatives approach",
+            "Color-coded diagrams"
+          ],
+          correct: 1
+        },
+        {
+          question: "ArchiMate is primarily used for:",
+          options: [
+            "Project management",
+            "Visual modeling and creating architecture diagrams",
+            "Financial planning",
+            "Human resource management"
+          ],
+          correct: 1
+        },
+        {
+          question: "Which framework would be best for a company that needs to create clear visual diagrams of their systems?",
+          options: [
+            "Zachman Framework",
+            "TOGAF",
+            "ArchiMate",
+            "Six Sigma"
+          ],
+          correct: 2
+        },
+        {
+          question: "The Zachman Framework organizes architecture using which dimensions?",
+          options: [
+            "Time and Cost",
+            "Six questions (What, How, Where, Who, When, Why) and Six perspectives",
+            "Input and Output",
+            "Hardware and Software"
+          ],
+          correct: 1
+        }
+      ]
+    };
+
+    // Initialize Element SDK
+    async function initializeApp() {
+      if (window.elementSdk) {
+        await window.elementSdk.init({
+          defaultConfig,
+          onConfigChange: async (newConfig) => {
+            config = { ...defaultConfig, ...newConfig };
+            applyConfig();
+          },
+          mapToCapabilities: (cfg) => ({
+            recolorables: [
+              {
+                get: () => cfg.primary_color || defaultConfig.primary_color,
+                set: (value) => {
+                  cfg.primary_color = value;
+                  window.elementSdk.setConfig({ primary_color: value });
+                }
+              },
+              {
+                get: () => cfg.secondary_color || defaultConfig.secondary_color,
+                set: (value) => {
+                  cfg.secondary_color = value;
+                  window.elementSdk.setConfig({ secondary_color: value });
+                }
+              },
+              {
+                get: () => cfg.text_color || defaultConfig.text_color,
+                set: (value) => {
+                  cfg.text_color = value;
+                  window.elementSdk.setConfig({ text_color: value });
+                }
+              }
+            ],
+            borderables: [],
+            fontEditable: {
+              get: () => cfg.font_family || defaultConfig.font_family,
+              set: (value) => {
+                cfg.font_family = value;
+                window.elementSdk.setConfig({ font_family: value });
+              }
+            },
+            fontSizeable: undefined
+          }),
+          mapToEditPanelValues: (cfg) => new Map([
+            ['course_title', cfg.course_title || defaultConfig.course_title],
+            ['instructor_name', cfg.instructor_name || defaultConfig.instructor_name]
+          ])
+        });
+        config = { ...defaultConfig, ...window.elementSdk.config };
+      }
+      applyConfig();
+      renderQuizzes();
+    }
+
+    function applyConfig() {
+      const titleEl = document.getElementById('main-title');
+      const instructorEl = document.getElementById('instructor-display');
+      
+      if (titleEl) {
+        titleEl.textContent = config.course_title || defaultConfig.course_title;
+        titleEl.style.fontFamily = `${config.font_family || defaultConfig.font_family}, Space Grotesk, sans-serif`;
+      }
+      if (instructorEl) {
+        instructorEl.textContent = config.instructor_name || defaultConfig.instructor_name;
+      }
+
+      // Apply heading font to all heading elements
+      document.querySelectorAll('.heading-font').forEach(el => {
+        el.style.fontFamily = `${config.font_family || defaultConfig.font_family}, Space Grotesk, sans-serif`;
+      });
+    }
+
+    function switchWeek(week) {
+      currentWeek = week;
+      
+      // Update tab styles
+      document.querySelectorAll('.week-tab').forEach(tab => {
+        if (parseInt(tab.dataset.week) === week) {
+          tab.classList.add('tab-active');
+          tab.classList.remove('bg-white/20', 'text-white', 'hover:bg-white/30');
+        } else {
+          tab.classList.remove('tab-active');
+          tab.classList.add('bg-white/20', 'text-white', 'hover:bg-white/30');
+        }
+      });
+
+      // Show/hide week content
+      document.querySelectorAll('.week-content').forEach(content => {
+        content.classList.add('hidden');
+      });
+      const weekContent = document.getElementById(`week-${week}`);
+      if (weekContent) {
+        weekContent.classList.remove('hidden');
+        weekContent.classList.add('animate-fade');
+      }
+
+      // Reset section tabs for the week
+      switchSection(week, 'lesson');
+    }
+
+    function switchSection(week, section) {
+      const weekContainer = document.getElementById(`week-${week}`);
+      if (!weekContainer) return;
+
+      // Update section tab styles
+      const tabs = weekContainer.querySelectorAll('.section-tab');
+      const colors = {
+        2: { active: 'text-blue-600 bg-blue-50 border-b-2 border-blue-600', inactive: 'text-slate-500 hover:bg-slate-50' },
+        3: { active: 'text-emerald-600 bg-emerald-50 border-b-2 border-emerald-600', inactive: 'text-slate-500 hover:bg-slate-50' },
+        4: { active: 'text-purple-600 bg-purple-50 border-b-2 border-purple-600', inactive: 'text-slate-500 hover:bg-slate-50' },
+        5: { active: 'text-rose-600 bg-rose-50 border-b-2 border-rose-600', inactive: 'text-slate-500 hover:bg-slate-50' }
+      };
+
+      tabs.forEach(tab => {
+        const isActive = tab.dataset.section === section;
+        tab.className = `section-tab flex-1 px-6 py-4 font-semibold transition-colors ${isActive ? colors[week].active : colors[week].inactive}`;
+      });
+
+      // Show/hide section content
+      weekContainer.querySelectorAll('.section-content').forEach(content => {
+        content.classList.add('hidden');
+      });
+      const sectionContent = document.getElementById(`week${week}-${section}`);
+      if (sectionContent) {
+        sectionContent.classList.remove('hidden');
+      }
+    }
+
+    function renderQuizzes() {
+      [2, 5].forEach(week => {
+        const container = document.getElementById(`quiz${week}-container`);
+        if (!container) return;
+
+        container.innerHTML = quizData[week].map((q, index) => `
+          <div class="bg-slate-50 rounded-xl p-5" data-question="${index}">
+            <div class="font-semibold text-slate-800 mb-3">${index + 1}. ${q.question}</div>
+            <div class="space-y-2">
+              ${q.options.map((opt, optIndex) => `
+                <label class="quiz-option flex items-center gap-3 p-3 rounded-lg border-2 border-slate-200 cursor-pointer transition-all">
+                  <input type="radio" name="q${week}-${index}" value="${optIndex}" class="w-4 h-4 text-blue-600" onchange="selectAnswer(${week}, ${index}, ${optIndex})">
+                  <span class="text-slate-700">${opt}</span>
+                </label>
+              `).join('')}
+            </div>
+          </div>
+        `).join('');
+      });
+    }
+
+    function selectAnswer(week, question, answer) {
+      quizAnswers[week][question] = answer;
+    }
+
+    function submitQuiz(week) {
+      const questions = quizData[week];
+      let correct = 0;
+
+      questions.forEach((q, index) => {
+        const questionEl = document.querySelector(`#quiz${week}-container [data-question="${index}"]`);
+        const options = questionEl.querySelectorAll('.quiz-option');
+        
+        options.forEach((opt, optIndex) => {
+          opt.classList.remove('quiz-correct', 'quiz-incorrect');
+          if (optIndex === q.correct) {
+            opt.classList.add('quiz-correct');
+          } else if (quizAnswers[week][index] === optIndex) {
+            opt.classList.add('quiz-incorrect');
+          }
+        });
+
+        if (quizAnswers[week][index] === q.correct) {
+          correct++;
+        }
+      });
+
+      const percentage = Math.round((correct / questions.length) * 100);
+      const resultEl = document.getElementById(`quiz${week}-result`);
+      
+      resultEl.className = `mt-6 p-6 rounded-xl text-center ${percentage >= 60 ? 'bg-emerald-100' : 'bg-amber-100'}`;
+      resultEl.innerHTML = `
+        <div class="text-4xl mb-2">${percentage >= 60 ? '🎉' : '📚'}</div>
+        <div class="text-2xl font-bold ${percentage >= 60 ? 'text-emerald-700' : 'text-amber-700'}">${correct}/${questions.length} Correct (${percentage}%)</div>
+        <div class="text-sm ${percentage >= 60 ? 'text-emerald-600' : 'text-amber-600'} mt-2">
+          ${percentage >= 60 ? 'Great job! You passed!' : 'Keep studying and try again!'}
+        </div>
+      `;
+      resultEl.classList.remove('hidden');
+
+      document.getElementById(`submit-quiz${week}`).classList.add('hidden');
+      document.getElementById(`reset-quiz${week}`).classList.remove('hidden');
+
+      if (percentage >= 60) {
+        completedWeeks.add(week);
+        updateProgress();
+      }
+    }
+
+    function resetQuiz(week) {
+      quizAnswers[week] = {};
+      renderQuizzes();
+      document.getElementById(`quiz${week}-result`).classList.add('hidden');
+      document.getElementById(`submit-quiz${week}`).classList.remove('hidden');
+      document.getElementById(`reset-quiz${week}`).classList.add('hidden');
+    }
+
+    function updateProgress() {
+      const totalWeeks = 4;
+      const completed = completedWeeks.size;
+      const percentage = Math.round((completed / totalWeeks) * 100);
+      
+      document.getElementById('overall-progress').style.width = `${percentage}%`;
+      document.getElementById('progress-text').textContent = `${percentage}%`;
+    }
+
+    // Initialize on load
+    initializeApp();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cb8e9c6c39acb25',t:'MTc3MDY5ODI2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
